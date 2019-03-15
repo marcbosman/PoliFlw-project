@@ -1,5 +1,6 @@
 import re
 import json
+from collections import Counter
 
 class text_cleaner:
     def __init__(self, text):
@@ -67,7 +68,13 @@ class text_cleaner:
 
         self._removeStopWords()
 
-        print(self.text)
+def getWords(text):
+    clean = text_cleaner(text)
+    clean.clean_text()
+    counts = Counter(clean.text).most_common(5)
 
-clean = text_cleaner('Wow ik heb hier een <b> hele mooie </b> zin')
-clean.clean_text()
+    return_list = []
+    for words in counts:
+        return_list.append(words[0])
+
+    return {'words': return_list, 'parsed_source': clean.text, 'source': text}
